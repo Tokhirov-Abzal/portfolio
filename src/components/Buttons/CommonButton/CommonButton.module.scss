@@ -1,0 +1,22 @@
+.button {
+  margin: 0.3rem;
+  padding: 0 0.4rem;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px grey,
+    inset 2px 2px #dfdfdf;
+  width: 5.5rem;
+  background-color: silver;
+
+  &:active {
+    box-shadow: inset -1px -1px #ffffff, inset 1px 1px #0a0a0a,
+      inset -2px -2px #dfdfdf, inset 2px 2px #808080;
+  }
+}
+
+.buttonIcon {
+  object-fit: cover;
+}
