@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import NextImage from 'next/image';
+import SpeakerIcon from 'public/icons/speaker.svg';
 import styles from './Time.module.scss';
 
 export const Time = () => {
@@ -22,5 +24,10 @@ export const Time = () => {
     };
   }, []);
 
-  return <div className={styles.time}>{time}</div>;
+  return (
+    <div className={styles.time}>
+      <NextImage src={SpeakerIcon} alt='Speaker icon' />
+      <span>{time}</span>
+    </div>
+  );
 };
