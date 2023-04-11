@@ -1,13 +1,20 @@
 .time {
   margin: 0.3rem;
-  padding: 0 0.4rem;
+  padding: 0 1rem;
   border: none;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   font-size: 1rem;
   box-shadow: inset -1px -1px #ffffff, inset 1px 1px #0a0a0a,
     inset -2px -2px #dfdfdf, inset 2px 2px #808080;
   width: 5.5rem;
   background-color: silver;
+
+  user-select: none;
+
+  img {
+    height: 20px;
+    width: 20px;
+  }
 }
