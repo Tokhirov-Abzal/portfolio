@@ -7,14 +7,14 @@ interface ICommonFile {
   src: StaticImageData;
   alt: string;
   title: string;
-  onDesktopOpen?: (arg: boolean) => void;
+  onDoubleClick?: () => void;
 }
 
 export const CommonFile: FC<ICommonFile> = ({
   src,
   alt,
   title,
-  onDesktopOpen,
+  onDoubleClick,
 }) => {
   const [active, setActive] = useState(false);
   const ref = useRef(null);
@@ -33,7 +33,7 @@ export const CommonFile: FC<ICommonFile> = ({
     <div
       className={`${styles.file_wrapper} ${active ? styles.active : null}`}
       onClick={onClickHandler}
-      onDoubleClick={() => onDesktopOpen?.(true)}
+      onDoubleClick={onDoubleClick}
       ref={ref}
       draggable
     >
