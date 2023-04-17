@@ -1,27 +1,38 @@
-import React, { FC, useState } from 'react';
-import { About, CommonFile, Desktop } from 'components';
-import { StaticImageData } from 'next/image';
+import React, { useState } from 'react';
+import { CommonFile, Desktop } from 'components';
+import { data } from './constants';
 
-interface IFileListProps {
-  data: Array<{ icon: StaticImageData; title: string }>;
-}
+import { IModal, IData } from './FileList.types';
 
-export const FileList: FC<IFileListProps> = ({ data }) => {
-  const [open, setOpen] = useState(false);
+export const FileList = () => {
+  const [cascade, setCascade] = useState<IData>([data[0]]);
+
+  const onClose = (modal: IModal) => {
+    setCascade(cascade.filter((item) => item.title !== modal.title));
+  };
+
+  const onDoubleClick = ({ icon, title, key, Component }: IModal) => {
+    if (!cascade.some((item) => item.key === key)) {
+      setCascade([...cascade, { icon, title, key, Component }]);
+    }
+  };
+
   return (
     <>
-      <Desktop
-        isOpen={open}
-        renderBody={() => <About />}
-        onClose={() => setOpen(false)}
-      />
-      {data?.map(({ icon, title }) => (
+      {cascade.map((modal) => (
+        <Desktop
+          key={modal.title}
+          Component={modal.Component}
+          onClose={() => onClose(modal)}
+        />
+      ))}
+      {data?.map(({ icon, title, Component, key }) => (
         <CommonFile
-          key={title}
+          key={key}
           src={icon}
           title={title}
           alt={title}
-          onDesktopOpen={setOpen}
+          onDoubleClick={() => onDoubleClick({ icon, title, Component, key })}
         />
       ))}
     </>
