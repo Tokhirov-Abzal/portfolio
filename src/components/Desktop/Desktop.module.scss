@@ -8,25 +8,24 @@
 }
 
 .inner {
-  width: 100%;
   height: 100%;
-  border-width: 1px;
+  position: relative;
+  border-width: 2px;
   border-style: solid;
   border-color: rgb(195, 198, 202) rgb(0, 0, 0) rgb(0, 0, 0) rgb(195, 198, 202);
   border-image: initial;
-  flex: 1 1 0%;
 
   &_inner {
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 2px;
     height: 100%;
+
     border-width: 1px;
     border-style: solid;
     border-color: rgb(255, 255, 255) rgb(134, 137, 141) rgb(134, 137, 141)
       rgb(255, 255, 255);
     border-image: initial;
-    flex: 1 1 0%;
-    padding: 2px;
-    flex-direction: column;
   }
 }
 
@@ -35,11 +34,11 @@
   padding-right: 2px;
   margin-bottom: 10px;
   justify-content: flex-end;
-  flex: 1 1 0%;
-  background-color: rgb(0, 0, 163);
-  width: 100%;
-  height: 24px;
   align-items: center;
+
+  background-color: rgb(0, 0, 163);
+
+  height: 24px;
 
   div {
     height: 18px;
@@ -75,14 +74,80 @@
   }
 }
 
+.content {
+  margin-bottom: 8px;
+  flex: 1 1 0%;
+  // position: relative;
+  overflow-x: hidden;
+  background-color: #e4e5e6;
+
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(134, 137, 141) rgb(255, 255, 255) rgb(255, 255, 255);
+}
+
+.bottom {
+  width: 100%;
+  height: 20px;
+  bottom: 2px;
+  display: flex;
+  margin-top: auto;
+
+  div {
+    margin-left: 2px;
+    min-width: 16px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(134, 137, 141) rgb(255, 255, 255) rgb(255, 255, 255)
+      rgb(134, 137, 141);
+  }
+
+  div:first-child {
+    display: flex;
+    margin: 0;
+    align-items: center;
+    flex: 1 1 0;
+
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+  }
+
+  div:last-child {
+    display: flex;
+
+    margin-left: 2px;
+    flex: 0.285714 1 0%;
+  }
+}
+
 .resizer {
+  width: 15px;
+  height: 15px;
   position: absolute;
-  right: -15px;
-  bottom: -15px;
-  width: 30px;
-  height: 30px;
+  right: 4px;
+  bottom: 4px;
+  object-fit: contain;
+  background-color: rgb(195, 198, 202);
+  user-select: none;
+  img {
+    width: 15px;
+    height: 15px;
+  }
 
   cursor: nw-resize;
+}
+
+.dragArea {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 70px;
+
+  height: 40px;
+}
+
+.isDragging {
+  cursor: move;
 }
 
 @media screen and (max-width: 1080px) {
