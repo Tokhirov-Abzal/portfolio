@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { usePrevieusDimensions } from './Desktop.helper';
+
 import NextImage from 'next/image';
 import styles from './Desktop.module.scss';
 import CloseIcon from 'public/icons/close.svg';
@@ -11,13 +13,21 @@ interface IDesktop {
   onClose: () => void;
 }
 
-export const Desktop = ({ isOpen, onClose, Component }: IDesktop) => {
-  const [top, setTop] = useState(400);
-  const [left, setLeft] = useState(400);
-  const [width, setWidth] = useState(700);
-  const [height, setHeight] = useState(700);
-
+export const Desktop = ({ onClose, Component }: IDesktop) => {
   const [clientHeight, setClientHeight] = useState(0);
+  const [top, setTop] = useState<string | number>(300);
+  const [left, setLeft] = useState<string | number>(500);
+  const [width, setWidth] = useState<string | number>(900);
+  const [height, setHeight] = useState<string | number>(700);
+  const [isMax, setIsMax] = useState(false);
+  const { prevHeight, prevWidth, prevTop, prevLeft } = usePrevieusDimensions({
+    top,
+    left,
+    width,
+    height,
+    isMax,
+  });
+
   const ref = useRef<HTMLDivElement>(null);
   const resizerRef = useRef<HTMLImageElement>(null);
   const [isDragging, setDragging] = useState(false);
@@ -25,8 +35,10 @@ export const Desktop = ({ isOpen, onClose, Component }: IDesktop) => {
   const dragRef = useRef<HTMLDivElement>(null);
 
   const onMouseMove = (e: MouseEvent) => {
-    const currWidth = e.clientX - left;
-    const currHeight = e.clientY - top;
+    if (clientHeight - e.clientY < 40) return;
+
+    const currWidth = e.clientX - Number(left);
+    const currHeight = e.clientY - Number(top);
 
     if (currWidth > 400) {
       setWidth(currWidth);
@@ -79,10 +91,14 @@ export const Desktop = ({ isOpen, onClose, Component }: IDesktop) => {
     if (!dragProps.current) return { x: 0, y: 0 };
     const { dragX, dragY } = dragProps.current;
 
-    const x = clientX - dragX + left;
-    const y = clientY - dragY + top;
+    const x = clientX - dragX + Number(left);
+    const y = clientY - dragY + Number(top);
 
     return { x, y };
+  };
+
+  const onMinMaxScreen = () => {
+    setIsMax((prev) => !prev);
   };
 
   useEffect(() => {
@@ -98,15 +114,30 @@ export const Desktop = ({ isOpen, onClose, Component }: IDesktop) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (isMax) {
+      setTop(0);
+      setLeft(0);
+      setWidth('100%');
+      setHeight(clientHeight - 40);
+    } else {
+      setTop(prevTop);
+      setLeft(prevLeft);
+      setWidth(prevWidth);
+      setHeight(prevHeight);
+    }
+    //eslint-disable-next-line
+  }, [isMax]);
+
   return (
     <div
       className={styles.desktop}
       ref={ref}
       style={{
-        width: width + 'px',
-        height: height + 'px',
-        top: top + 'px',
-        left: left + 'px',
+        width: width,
+        height: height,
+        top: top,
+        left: left,
       }}
     >
       <div className={styles.inner}>
@@ -115,7 +146,7 @@ export const Desktop = ({ isOpen, onClose, Component }: IDesktop) => {
             <div>
               <NextImage src={MinimizeIcon} alt='minimize icon' />
             </div>
-            <div>
+            <div onClick={onMinMaxScreen}>
               <NextImage src={MaximizeIcon} alt='maximize icon' />
             </div>
             <div onClick={onClose}>

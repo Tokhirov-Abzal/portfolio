@@ -5,7 +5,7 @@ import { data } from './constants';
 import { IModal, IData } from './FileList.types';
 
 export const FileList = () => {
-  const [cascade, setCascade] = useState<IData>([data[0]]);
+  const [cascade, setCascade] = useState<IData>([]);
 
   const onClose = (modal: IModal) => {
     setCascade(cascade.filter((item) => item.title !== modal.title));
