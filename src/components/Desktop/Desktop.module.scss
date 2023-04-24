@@ -7,6 +7,10 @@
   z-index: 10;
 }
 
+.isActive {
+  visibility: hidden;
+}
+
 .inner {
   height: 100%;
   position: relative;
@@ -121,13 +125,13 @@
 }
 
 .resizer {
-  width: 15px;
-  height: 15px;
+  width: 25px;
+  height: 25px;
   position: absolute;
-  right: 4px;
-  bottom: 4px;
+  right: -6px;
+  bottom: -6px;
   object-fit: contain;
-  background-color: rgb(195, 198, 202);
+
   user-select: none;
   img {
     width: 15px;

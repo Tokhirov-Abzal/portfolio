@@ -1,10 +1,13 @@
 import { FileList } from 'modules';
 import { Container } from 'components';
+import { DesktopContextProvider } from 'helpers/Desktop.context';
 
 export default function Home() {
   return (
-    <Container>
-      <FileList />
-    </Container>
+    <DesktopContextProvider>
+      <Container>
+        <FileList />
+      </Container>
+    </DesktopContextProvider>
   );
 }
