@@ -11,9 +11,16 @@ import ResizerIcon from 'public/icons/resizer.png';
 interface IDesktop {
   Component: () => JSX.Element;
   onClose: () => void;
+  isActive: boolean;
+  onMinimize: () => void;
 }
 
-export const Desktop = ({ onClose, Component }: IDesktop) => {
+export const Desktop = ({
+  onClose,
+  Component,
+  isActive,
+  onMinimize,
+}: IDesktop) => {
   const [clientHeight, setClientHeight] = useState(0);
   const [top, setTop] = useState<string | number>(300);
   const [left, setLeft] = useState<string | number>(500);
@@ -55,7 +62,6 @@ export const Desktop = ({ onClose, Component }: IDesktop) => {
 
   const onStartResizing = (e: any) => {
     e.preventDefault();
-
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mouseup', onStopResize);
   };
@@ -131,7 +137,7 @@ export const Desktop = ({ onClose, Component }: IDesktop) => {
 
   return (
     <div
-      className={styles.desktop}
+      className={`${styles.desktop} ${isActive ? styles.isActive : null}`}
       ref={ref}
       style={{
         width: width,
@@ -143,7 +149,7 @@ export const Desktop = ({ onClose, Component }: IDesktop) => {
       <div className={styles.inner}>
         <div className={styles.inner_inner}>
           <div className={styles.top}>
-            <div>
+            <div onClick={onMinimize}>
               <NextImage src={MinimizeIcon} alt='minimize icon' />
             </div>
             <div onClick={onMinMaxScreen}>
