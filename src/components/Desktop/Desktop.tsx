@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { usePrevieusDimensions } from './Desktop.helper';
 
-import NextImage from 'next/image';
+import NextImage, { StaticImageData } from 'next/image';
 import styles from './Desktop.module.scss';
 import CloseIcon from 'public/icons/close.svg';
 import MinimizeIcon from 'public/icons/minimize.svg';
@@ -9,10 +9,11 @@ import MaximizeIcon from 'public/icons/resize.svg';
 import ResizerIcon from 'public/icons/resizer.png';
 
 interface IDesktop {
-  Component: () => JSX.Element;
+  Component: FC<{ width: string | number }>;
   onClose: () => void;
   isActive: boolean;
   onMinimize: () => void;
+  icon: StaticImageData;
 }
 
 export const Desktop = ({
@@ -20,10 +21,12 @@ export const Desktop = ({
   Component,
   isActive,
   onMinimize,
+  icon,
 }: IDesktop) => {
   const [clientHeight, setClientHeight] = useState(0);
+  const [clientWidth, setClientWidth] = useState(0);
   const [top, setTop] = useState<string | number>(300);
-  const [left, setLeft] = useState<string | number>(500);
+  const [left, setLeft] = useState<string | number>(-900);
   const [width, setWidth] = useState<string | number>(900);
   const [height, setHeight] = useState<string | number>(700);
   const [isMax, setIsMax] = useState(false);
@@ -108,10 +111,20 @@ export const Desktop = ({
   };
 
   useEffect(() => {
+    if (clientWidth < 800) {
+      setWidth(400);
+      setLeft((clientWidth - 400) / 2);
+    } else {
+      setLeft((clientWidth - Number(width)) / 2);
+    }
+  }, [clientWidth]);
+
+  useEffect(() => {
     const onSetClientHeight = () => {
       setClientHeight(document.body.clientHeight);
     };
     onSetClientHeight();
+    setClientWidth(document.body.clientWidth);
 
     window.addEventListener('resize', onSetClientHeight);
 
@@ -124,7 +137,7 @@ export const Desktop = ({
     if (isMax) {
       setTop(0);
       setLeft(0);
-      setWidth('100%');
+      setWidth(clientWidth);
       setHeight(clientHeight - 40);
     } else {
       setTop(prevTop);
@@ -149,18 +162,23 @@ export const Desktop = ({
       <div className={styles.inner}>
         <div className={styles.inner_inner}>
           <div className={styles.top}>
-            <div onClick={onMinimize}>
-              <NextImage src={MinimizeIcon} alt='minimize icon' />
+            <div className={styles.topIcon}>
+              <NextImage src={icon} alt='main icon' />
             </div>
-            <div onClick={onMinMaxScreen}>
-              <NextImage src={MaximizeIcon} alt='maximize icon' />
-            </div>
-            <div onClick={onClose}>
-              <NextImage src={CloseIcon} alt='close icon' />
+            <div className={styles.buttonsContainer}>
+              <div onClick={onMinimize}>
+                <NextImage src={MinimizeIcon} alt='minimize icon' />
+              </div>
+              <div onClick={onMinMaxScreen}>
+                <NextImage src={MaximizeIcon} alt='maximize icon' />
+              </div>
+              <div onClick={onClose}>
+                <NextImage src={CloseIcon} alt='close icon' />
+              </div>
             </div>
           </div>
           <div className={styles.content}>
-            <Component />
+            <Component width={width} />
           </div>
           <div className={styles.bottom}>
             <div>&copy;Abzal Tokhirov</div>
