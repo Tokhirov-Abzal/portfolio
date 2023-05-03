@@ -1,0 +1,14 @@
+.active {
+  display: flex;
+  align-items: center;
+
+  &::before {
+    margin-right: 5px;
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: rgb(231, 230, 230);
+    border: 2px solid black;
+  }
+}

@@ -1,0 +1,57 @@
+.about_container {
+  height: 100%;
+  padding: 1.5rem;
+
+  overflow-x: auto;
+
+  h1 {
+    letter-spacing: 0.3rem;
+    font-family: 'Gastoromond';
+  }
+}
+
+.title {
+  font-size: 1.6rem;
+  margin-bottom: 2rem;
+}
+
+.content {
+  margin-top: 4rem;
+  display: flex;
+}
+
+.navbar {
+  font-size: 2rem;
+  text-decoration: underline;
+  text-decoration-color: #551a8b;
+
+  li {
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+
+    color: #551a8b;
+
+    cursor: pointer;
+  }
+}
+
+.left_side {
+  width: 350px;
+}
+
+.right_side {
+  width: calc(100% - 400px);
+
+  font-size: 1.5rem;
+  letter-spacing: 0.1rem;
+  line-height: 2rem;
+
+  p {
+    margin-bottom: 1rem;
+  }
+}
+
+.flex_column {
+  flex-direction: column;
+  width: 100%;
+}

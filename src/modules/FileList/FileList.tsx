@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { CommonFile, Desktop } from 'components';
 import { data } from './constants';
 
@@ -30,14 +30,13 @@ export const FileList = () => {
     );
   };
 
-  console.log(desktopArr);
-
   return (
     <>
       {desktopArr.map((modal) => (
         <Desktop
           key={modal.title}
           Component={modal.Component}
+          icon={modal.icon}
           onClose={() => onClose(modal)}
           isActive={modal.isActive}
           onMinimize={() => onMinimize(modal.key)}
